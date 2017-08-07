@@ -1,0 +1,25 @@
+{
+    "name": "codehouse/cart",
+    "description": "Shopping cart logic",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Markus Karileet",
+            "email": "markus.karileet@codehouse.ee"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "doctrine/collections": "v1.4.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "5.7.21",
+        "phpunit/php-code-coverage": "4.0.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeHouse\\Cart\\": "src"
+        }
+    }
+}

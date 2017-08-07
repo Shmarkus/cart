@@ -1,0 +1,6 @@
+.idea
+doc
+*.iml
+composer.phar
+composer.lock
+vendor
