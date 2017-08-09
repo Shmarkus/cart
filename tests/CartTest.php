@@ -72,6 +72,18 @@ class CartTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    public function testShouldHandleSerialization()
+    {
+        $identifier = 1;
+        $basket = $this->_cart->init($identifier);
+        $ser = serialize($this->_cart);
+        /**
+         * @var $newCart ICart
+         */
+        $newCart = unserialize($ser);
+        $this->assertEquals($basket, $newCart->get($identifier));
+    }
+
     protected function setUp()
     {
         $this->_cart = new Cart();

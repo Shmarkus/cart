@@ -132,6 +132,18 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(0, $this->_basket->listItems()->count());
     }
 
+    public function testShouldHandleSerialization()
+    {
+        $item = self::getItem();
+        $this->_basket->addItem($item);
+        $ser = serialize($this->_basket);
+        /**
+         * @var $newBasket IBasket
+         */
+        $newBasket = unserialize($ser);
+        $this->assertEquals($item, $newBasket->listItems()->first());
+    }
+
     protected function setUp()
     {
         $this->_basket = new SimpleBasket();

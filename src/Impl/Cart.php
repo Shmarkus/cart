@@ -13,11 +13,11 @@ class Cart implements ICart
     /**
      * @var ArrayCollection
      */
-    private $_carts;
+    private $_baskets;
 
     public function __construct()
     {
-        $this->_carts = new ArrayCollection();
+        $this->_baskets = new ArrayCollection();
     }
 
     /**
@@ -28,11 +28,11 @@ class Cart implements ICart
      */
     function init($identifier)
     {
-        if ($this->_carts->containsKey($identifier)) {
+        if ($this->_baskets->containsKey($identifier)) {
             throw new AlreadyInitializedException();
         }
         $basket = new SimpleBasket();
-        $this->_carts->set($identifier, $basket);
+        $this->_baskets->set($identifier, $basket);
         return $basket;
     }
 
@@ -44,10 +44,10 @@ class Cart implements ICart
      */
     function get($identifier)
     {
-        if (!$this->_carts->containsKey($identifier)) {
+        if (!$this->_baskets->containsKey($identifier)) {
             throw new BasketNotFoundException();
         }
-        return $this->_carts->get($identifier);
+        return $this->_baskets->get($identifier);
     }
 
     /**
@@ -58,10 +58,10 @@ class Cart implements ICart
      */
     function discard($identifier)
     {
-        if (!$this->_carts->containsKey($identifier)) {
+        if (!$this->_baskets->containsKey($identifier)) {
             throw new BasketNotFoundException();
         }
-        $this->_carts->remove($identifier);
+        $this->_baskets->remove($identifier);
         return true;
     }
 }
