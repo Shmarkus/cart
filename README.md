@@ -1,5 +1,5 @@
 [![Build Status](https://travis-ci.org/Shmarkus/cart.svg?branch=master)](https://travis-ci.org/Shmarkus/cart)
-[![Coverage Status](https://coveralls.io/repos/github/Shmarkus/cart/badge.svg?branch=master)](https://coveralls.io/github/Shmarkus/cart?branch=master)
+[![codecov](https://codecov.io/gh/Shmarkus/cart/branch/master/graph/badge.svg)](https://codecov.io/gh/Shmarkus/cart)
 
 # Cart
 Base logic for handling shopping cart logic. The structure is as follows:

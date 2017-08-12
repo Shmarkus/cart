@@ -2,20 +2,20 @@
 <phpunit
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/4.3/phpunit.xsd"
-    bootstrap="../src/bootstrap.php"
+    bootstrap="vendor/autoload.php"
     cacheTokens="false">
     <filter>
         <whitelist>
-            <directory suffix=".php">../src/</directory>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
     <logging>
-        <log type="coverage-html" target="../doc/report"/>
-        <log type="testdox-html" target="../doc/testdox.html"/>
+        <log type="coverage-html" target="doc/report"/>
+        <log type="testdox-html" target="doc/testdox.html"/>
     </logging>
     <testsuites>
         <testsuite name="all">
-            <directory>.</directory>
+            <directory>tests/</directory>
         </testsuite>
     </testsuites>
 </phpunit>
