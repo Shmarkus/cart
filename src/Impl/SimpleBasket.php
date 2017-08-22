@@ -126,7 +126,12 @@ class SimpleBasket implements IBasket
         });
         if ($existing->count() > 0) {
             $first = $existing->first();
-            $first->setCount($first->getCount() - 1);
+            // removing last item?
+            if ($first->getCount() == 1) {
+                $this->_items->removeElement($first);
+            } else {
+                $first->setCount($first->getCount() - 1);
+            }
         } else {
             throw new ItemNotFoundException();
         }

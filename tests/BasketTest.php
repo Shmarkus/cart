@@ -50,6 +50,35 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($count - 1, $this->_basket->listItems()->first()->getCount());
     }
 
+    public function testShouldRemoveWhenDecrementedToZero()
+    {
+        $id = 1;
+        $item = self::getItem($id, 100, 1);
+        $this->_basket->addItem($item);
+        $this->_basket->decrementItem($id);
+        $this->assertEquals(0, $this->_basket->listItems()->count());
+    }
+
+    public function testShouldNotAllowToDecrementNonExistingElement()
+    {
+        try {
+            $this->_basket->decrementItem(1);
+            $this->fail('Should have thrown an exception');
+        } catch (ItemNotFoundException $e) {
+            $this->assertTrue(true); // ¯\_(ツ)_/¯
+        }
+    }
+
+    public function testShouldNotAllowToIncrementNonExistingElement()
+    {
+        try {
+            $this->_basket->incrementItem(1);
+            $this->fail('Should have thrown an exception');
+        } catch (ItemNotFoundException $e) {
+            $this->assertTrue(true); // ¯\_(ツ)_/¯
+        }
+    }
+
     public function testShouldReturnPriceOfOneItem()
     {
         $expectedPrice = 100;
