@@ -20,8 +20,7 @@ class SimpleBasket implements IBasket
     }
 
     /**
-     * Return the list of items in basket
-     * @return \Doctrine\Common\Collections\Collection
+     * @inheritdoc
      */
     function listItems()
     {
@@ -29,11 +28,7 @@ class SimpleBasket implements IBasket
     }
 
     /**
-     * Remove item from basket
-     * @param int $id Item ID to remove
-     * @param int $count Optional number of items to remove (default 1)
-     * @return IItem Removed item
-     * @throws ItemNotFoundException
+     * @inheritdoc
      */
     function removeItem($id, $count = 1)
     {
@@ -55,9 +50,7 @@ class SimpleBasket implements IBasket
     }
 
     /**
-     * Add item to cart
-     * @param IItem $item Item to add
-     * @return int Number of items in cart
+     * @inheritdoc
      */
     function addItem(IItem $item)
     {
@@ -78,8 +71,7 @@ class SimpleBasket implements IBasket
     }
 
     /**
-     * Calculate the total value of basket (in cents)
-     * @return int
+     * @inheritdoc
      */
     function calculateTotal()
     {
@@ -89,4 +81,55 @@ class SimpleBasket implements IBasket
         }
         return $total;
     }
+
+    /**
+     * @inheritdoc
+     */
+    function removeAllById($id)
+    {
+        $existing = $this->_items->filter(function (IItem $i) use ($id) {
+            return $i->getId() === $id;
+        });
+        if ($existing->count() > 0) {
+            $first = $existing->first();
+            $this->_items->removeElement($first);
+        } else {
+            throw new ItemNotFoundException();
+        }
+
+        return $existing;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function incrementItem($id)
+    {
+        $existing = $this->_items->filter(function (IItem $i) use ($id) {
+            return $i->getId() === $id;
+        });
+        if ($existing->count() > 0) {
+            $first = $existing->first();
+            $first->setCount($first->getCount() + 1);
+        } else {
+            throw new ItemNotFoundException();
+        }
+    }
+
+    /**
+     * @inheritdoc
+     */
+    function decrementItem($id)
+    {
+        $existing = $this->_items->filter(function (IItem $i) use ($id) {
+            return $i->getId() === $id;
+        });
+        if ($existing->count() > 0) {
+            $first = $existing->first();
+            $first->setCount($first->getCount() - 1);
+        } else {
+            throw new ItemNotFoundException();
+        }
+    }
+
 }

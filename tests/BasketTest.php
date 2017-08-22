@@ -30,13 +30,24 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($expectedItem, $this->_basket->listItems()->first());
     }
 
-    private static function getItem($id = 1, $price = 100, $count = 1)
+    public function testShouldIncrementCountByOne()
     {
-        $item = new Item();
-        $item->setId($id);
-        $item->setPrice($price);
-        $item->setCount($count);
-        return $item;
+        $id = 1;
+        $count = 2;
+        $expectedItem = self::getItem($id, 100, $count);
+        $this->_basket->addItem($expectedItem);
+        $this->_basket->incrementItem($id);
+        $this->assertEquals($count + 1, $this->_basket->listItems()->first()->getCount());
+    }
+
+    public function testShouldDecrementCountByOne()
+    {
+        $id = 1;
+        $count = 2;
+        $expectedItem = self::getItem($id, 100, $count);
+        $this->_basket->addItem($expectedItem);
+        $this->_basket->decrementItem($id);
+        $this->assertEquals($count - 1, $this->_basket->listItems()->first()->getCount());
     }
 
     public function testShouldReturnPriceOfOneItem()
@@ -144,6 +155,26 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($item, $newBasket->listItems()->first());
     }
 
+    public function testShouldRemoveAllItemsAtOnce()
+    {
+        $id = 1;
+        $this->_basket->addItem(self::getItem($id, 100, 100));
+        $this->_basket->removeAllById($id);
+        $this->assertEquals(0, $this->_basket->listItems()->count());
+    }
+
+    public function testShouldRemoveAllItemsAtOnceThatDoesntExist()
+    {
+        $id = 1;
+        try {
+            $this->_basket->addItem(self::getItem($id, 100, 100));
+            $this->_basket->removeAllById(2);
+            $this->fail('Should have thrown an exception');
+        } catch (ItemNotFoundException $e) {
+            $this->assertTrue(true); // ¯\_(ツ)_/¯
+        }
+    }
+
     protected function setUp()
     {
         $this->_basket = new SimpleBasket();
@@ -156,5 +187,14 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $this->_basket->addItem(self::getItem($id, 100, $count));
         $this->_basket->removeItem($id, $itemsToRemove);
         $this->assertEquals($count - $itemsToRemove, $this->_basket->listItems()->first()->getCount());
+    }
+
+    private static function getItem($id = 1, $price = 100, $count = 1)
+    {
+        $item = new Item();
+        $item->setId($id);
+        $item->setPrice($price);
+        $item->setCount($count);
+        return $item;
     }
 }
