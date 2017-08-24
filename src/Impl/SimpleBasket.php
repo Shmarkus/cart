@@ -12,7 +12,7 @@ class SimpleBasket implements IBasket
     /**
      * @var ArrayCollection Items in basket
      */
-    private $_items;
+    protected $_items;
 
     public function __construct()
     {
