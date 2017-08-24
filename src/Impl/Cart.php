@@ -22,12 +22,12 @@ class Cart implements ICart
     /**
      * @inheritdoc
      */
-    function init($identifier, $type)
+    function init($identifier)
     {
         if ($this->_baskets->containsKey($identifier)) {
             throw new AlreadyInitializedException();
         }
-        $basket = BasketFactory::getBasket($type);
+        $basket = new SimpleBasket();
         $this->_baskets->set($identifier, $basket);
         return $basket;
     }

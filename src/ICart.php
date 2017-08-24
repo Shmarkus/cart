@@ -14,10 +14,9 @@ interface ICart
     /**
      * Initialize basket. Must be invoked, before basket can be used
      * @param string $identifier Session ID or other identifier for basket
-     * @param string $basket Basket type to use
      * @return IBasket
      */
-    function init($identifier, $basket);
+    function init($identifier);
 
     /**
      * Get specific basket
