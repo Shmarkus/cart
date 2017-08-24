@@ -15,7 +15,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldReturnEmptyList()
     {
-        $this->assertEquals(0, $this->_basket->listItems()->count());
+        $this->assertEquals(0, $this->_basket->getItems()->count());
     }
 
     public function testShouldCalculateTotalOfEmptyBasket()
@@ -27,7 +27,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
     {
         $expectedItem = self::getItem();
         $this->_basket->addItem($expectedItem);
-        $this->assertEquals($expectedItem, $this->_basket->listItems()->first());
+        $this->assertEquals($expectedItem, $this->_basket->getItems()->first());
     }
 
     public function testShouldIncrementCountByOne()
@@ -37,7 +37,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $expectedItem = self::getItem($id, 100, $count);
         $this->_basket->addItem($expectedItem);
         $this->_basket->incrementItem($id);
-        $this->assertEquals($count + 1, $this->_basket->listItems()->first()->getCount());
+        $this->assertEquals($count + 1, $this->_basket->getItems()->first()->getCount());
     }
 
     public function testShouldDecrementCountByOne()
@@ -47,7 +47,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $expectedItem = self::getItem($id, 100, $count);
         $this->_basket->addItem($expectedItem);
         $this->_basket->decrementItem($id);
-        $this->assertEquals($count - 1, $this->_basket->listItems()->first()->getCount());
+        $this->assertEquals($count - 1, $this->_basket->getItems()->first()->getCount());
     }
 
     public function testShouldRemoveWhenDecrementedToZero()
@@ -56,7 +56,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $item = self::getItem($id, 100, 1);
         $this->_basket->addItem($item);
         $this->_basket->decrementItem($id);
-        $this->assertEquals(0, $this->_basket->listItems()->count());
+        $this->assertEquals(0, $this->_basket->getItems()->count());
     }
 
     public function testShouldNotAllowToDecrementNonExistingElement()
@@ -93,8 +93,8 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         for ($i = 0; $i < $count; $i++) {
             $this->_basket->addItem(self::getItem());
         }
-        $this->assertEquals($numberOfUniqueItemsInCart, $this->_basket->listItems()->count());
-        $this->assertEquals($count, $this->_basket->listItems()->first()->getCount());
+        $this->assertEquals($numberOfUniqueItemsInCart, $this->_basket->getItems()->count());
+        $this->assertEquals($count, $this->_basket->getItems()->first()->getCount());
     }
 
     public function testShouldReturnNumberOfItemsInCart()
@@ -160,7 +160,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $count = 3;
         $this->_basket->addItem(self::getItem($id, 100, $count));
         $this->_basket->removeItem($id, $count);
-        $this->assertEquals(0, $this->_basket->listItems()->count());
+        $this->assertEquals(0, $this->_basket->getItems()->count());
     }
 
     public function testShouldRemoveAllItemsWhenRemovedMoreThanInTheBasket()
@@ -169,7 +169,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $count = 3;
         $this->_basket->addItem(self::getItem($id, 100, $count));
         $this->_basket->removeItem($id, $count + 1);
-        $this->assertEquals(0, $this->_basket->listItems()->count());
+        $this->assertEquals(0, $this->_basket->getItems()->count());
     }
 
     public function testShouldHandleSerialization()
@@ -181,7 +181,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
          * @var $newBasket IBasket
          */
         $newBasket = unserialize($ser);
-        $this->assertEquals($item, $newBasket->listItems()->first());
+        $this->assertEquals($item, $newBasket->getItems()->first());
     }
 
     public function testShouldRemoveAllItemsAtOnce()
@@ -189,7 +189,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $id = 1;
         $this->_basket->addItem(self::getItem($id, 100, 100));
         $this->_basket->removeAllById($id);
-        $this->assertEquals(0, $this->_basket->listItems()->count());
+        $this->assertEquals(0, $this->_basket->getItems()->count());
     }
 
     public function testShouldRemoveAllItemsAtOnceThatDoesntExist()
@@ -215,7 +215,7 @@ class BasketTest extends \PHPUnit_Framework_TestCase
         $count = 3;
         $this->_basket->addItem(self::getItem($id, 100, $count));
         $this->_basket->removeItem($id, $itemsToRemove);
-        $this->assertEquals($count - $itemsToRemove, $this->_basket->listItems()->first()->getCount());
+        $this->assertEquals($count - $itemsToRemove, $this->_basket->getItems()->first()->getCount());
     }
 
     private static function getItem($id = 1, $price = 100, $count = 1)

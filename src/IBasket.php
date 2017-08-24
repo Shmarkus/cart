@@ -15,7 +15,7 @@ interface IBasket
      * Return the list of items in basket
      * @return \Doctrine\Common\Collections\Collection
      */
-    function listItems();
+    function getItems();
 
     /**
      * Remove item from basket

@@ -22,7 +22,7 @@ class SimpleBasket implements IBasket
     /**
      * @inheritdoc
      */
-    function listItems()
+    function getItems()
     {
         return $this->_items;
     }
