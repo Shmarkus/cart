@@ -4,6 +4,7 @@ namespace CodeHouse\Cart;
 
 use CodeHouse\Cart\Exception\AlreadyInitializedException;
 use CodeHouse\Cart\Exception\BasketNotFoundException;
+use CodeHouse\Cart\Impl\BasketFactory;
 use CodeHouse\Cart\Impl\Cart;
 
 class CartTest extends \PHPUnit_Framework_TestCase
@@ -15,7 +16,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
 
     public function testShouldInitializeBasket()
     {
-        $basket = $this->_cart->init(1);
+        $basket = $this->_cart->init(1, BasketFactory::SIMPLE);
         $this->assertTrue($basket instanceof IBasket);
     }
 
@@ -23,8 +24,8 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         try {
-            $this->_cart->init($id);
-            $this->_cart->init($id);
+            $this->_cart->init($id, BasketFactory::SIMPLE);
+            $this->_cart->init($id, BasketFactory::SIMPLE);
             $this->fail('Should have thrown an exception');
         } catch (AlreadyInitializedException $e) {
             $this->assertTrue(true); // ¯\_(ツ)_/¯
@@ -44,7 +45,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testShouldReturnBasketById()
     {
         $id = 1;
-        $basket = $this->_cart->init($id);
+        $basket = $this->_cart->init($id, BasketFactory::SIMPLE);
         $getBasket = $this->_cart->get($id);
         $this->assertEquals($basket, $getBasket);
     }
@@ -63,7 +64,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     {
         $id = 1;
         try {
-            $this->_cart->init($id);
+            $this->_cart->init($id, BasketFactory::SIMPLE);
             $this->_cart->discard($id);
             $this->_cart->get($id);
             $this->fail('Should have thrown an exception');
@@ -75,7 +76,7 @@ class CartTest extends \PHPUnit_Framework_TestCase
     public function testShouldHandleSerialization()
     {
         $identifier = 1;
-        $basket = $this->_cart->init($identifier);
+        $basket = $this->_cart->init($identifier, BasketFactory::SIMPLE);
         $ser = serialize($this->_cart);
         /**
          * @var $newCart ICart

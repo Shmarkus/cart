@@ -4,7 +4,6 @@ namespace CodeHouse\Cart\Impl;
 
 use CodeHouse\Cart\Exception\AlreadyInitializedException;
 use CodeHouse\Cart\Exception\BasketNotFoundException;
-use CodeHouse\Cart\IBasket;
 use CodeHouse\Cart\ICart;
 use Doctrine\Common\Collections\ArrayCollection;
 
@@ -21,26 +20,20 @@ class Cart implements ICart
     }
 
     /**
-     * Initialize basket. Must be invoked, before basket can be used
-     * @param string $identifier Session ID or other identifier for basket
-     * @return IBasket
-     * @throws AlreadyInitializedException
+     * @inheritdoc
      */
-    function init($identifier)
+    function init($identifier, $type)
     {
         if ($this->_baskets->containsKey($identifier)) {
             throw new AlreadyInitializedException();
         }
-        $basket = new SimpleBasket();
+        $basket = BasketFactory::getBasket($type);
         $this->_baskets->set($identifier, $basket);
         return $basket;
     }
 
     /**
-     * Get specific basket
-     * @param string $identifier Session ID or other identifier for basket
-     * @return IBasket
-     * @throws BasketNotFoundException
+     * @inheritdoc
      */
     function get($identifier)
     {
@@ -51,10 +44,7 @@ class Cart implements ICart
     }
 
     /**
-     * Throw basket away
-     * @param string $identifier Session ID or other identifier for basket
-     * @return boolean Whether a basket was discarded
-     * @throws BasketNotFoundException
+     * @inheritdoc
      */
     function discard($identifier)
     {

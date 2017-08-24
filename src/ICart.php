@@ -2,7 +2,6 @@
 
 namespace CodeHouse\Cart;
 
-use CodeHouse\Cart\Exception\AlreadyInitializedException;
 use CodeHouse\Cart\Exception\BasketNotFoundException;
 
 /**
@@ -15,10 +14,10 @@ interface ICart
     /**
      * Initialize basket. Must be invoked, before basket can be used
      * @param string $identifier Session ID or other identifier for basket
+     * @param string $basket Basket type to use
      * @return IBasket
-     * @throws AlreadyInitializedException
      */
-    function init($identifier);
+    function init($identifier, $basket);
 
     /**
      * Get specific basket
